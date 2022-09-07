@@ -4,7 +4,11 @@ services:
     build: .
     ports:
       - "5000:5000"
+    depends_on:
+      - redis
     volumes:
       - .:/hello-flask
-    environment:
-      FLASK_ENV: development
+  redis:
+    image: redis:bullseye
+    ports:
+      - "6379:6379"
