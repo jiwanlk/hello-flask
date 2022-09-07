@@ -8,6 +8,8 @@ services:
       - redis
     volumes:
       - .:/hello-flask
+    environment:
+      - FLASK_ENV=development
   redis:
     image: redis:bullseye
     ports:

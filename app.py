@@ -1,20 +1,17 @@
-import os
-from flask import Flask
-import redis
-
-redis_url = os.getenv("REDISTOGO_URL", "redis://redis:6379")
-
-rdb = redis.from_url(redis_url)
-if not rdb.exists("counter"):
-    rdb.set("counter", 0)
+from flask import Flask, request
+from redis import Redis
+from rq import Queue
+from worker import count_words_at_url
 
 app = Flask(__name__)
+queue = Queue(connection=Redis(host="redis"))
 
 
 @app.route("/")
 def index():
-    rdb.incr("counter", 1)
-    return f"<h1>This page has been visited {rdb.get('counter').decode()} times!</h1>"
+    if "url" in request.args:
+        queue.enqueue(count_words_at_url, request.args.get("url"))
+    return "Counting going on..."
 
 
 if __name__ == "__main__":
