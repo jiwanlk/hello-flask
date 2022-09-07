@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Count Words!</title>
+  </head>
+  <body style="background-color: aquamarine">
+    <nav>
+      <h2>Scrape sites to count words!</h2>
+    </nav>
+    <main>
+      <form
+        action="/add_to_queue"
+        style="
+          background-color: aqua;
+          display: flex;
+          padding: 3rem;
+          gap: 2rem;
+          align-items: flex-end;
+          font-size: xx-large;
+        "
+      >
+        <div style="display: flex; flex-direction: column">
+          <label for="url">Enter url to scrape:</label>
+          <input
+            style="padding: 0.5rem; font-size: large"
+            type="text"
+            name="url"
+          />
+        </div>
+        <button style="font-size: x-large">Add to queue</button>
+      </form>
+      <div>
+        <ul>
+          {% for url in urls %}
+          <li>
+            {% for u, j in url.items() %}
+            <a href="/results/{{ j }}">{{ u }}</a>
+            {% endfor %}
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </main>
+  </body>
+</html>
