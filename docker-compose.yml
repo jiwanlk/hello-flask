@@ -14,3 +14,10 @@ services:
     image: redis:bullseye
     ports:
       - "6379:6379"
+  worker:
+    build:
+      context: .
+    entrypoint: rq worker --url=redis://redis:6379
+    depends_on:
+      - redis
+      - web
