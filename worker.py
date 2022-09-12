@@ -1,9 +1,9 @@
-import time
 import requests
+from logger import logger
 
 
 def count_words_at_url(url):
     """counts word in url website"""
-    time.sleep(15)
     resp = requests.get(url)
+    logger.info("A worker completed its job!")
     return len(resp.text.split())
