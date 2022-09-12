@@ -4,6 +4,7 @@ from flask import Flask, request, make_response, render_template, redirect
 from redis import Redis
 from rq import Queue, job
 from worker import count_words_at_url
+from logger import logger
 
 app = Flask(__name__)
 r = Redis(host="redis")
@@ -12,12 +13,14 @@ queue = Queue(connection=r)
 
 @app.route("/")
 def index():
+    logger.debug("A new user visited our site!")
     urls_raw = request.cookies.get("urls_in_queue", "[]")
     urls = json.loads(urls_raw)
     return render_template("index.html", urls=urls)
 
 
 @app.route("/add_to_queue")
+@logger.catch
 def add_to_queue():
     if "url" in request.args:
         url = request.args.get("url")
@@ -49,4 +52,4 @@ def get_results(job_key):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()

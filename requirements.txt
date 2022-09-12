@@ -2,3 +2,5 @@ flask
 redis
 rq
 requests
+loguru
+python-dotenv
