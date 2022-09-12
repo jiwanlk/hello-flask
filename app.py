@@ -46,6 +46,7 @@ def get_results(job_key):
         return "No job", 400
     j = job.Job.fetch(job_key, connection=r)
     if j.is_finished:
+        logger.log("WORKER", "Returned Completed Job Status!")
         return str(j.result), 200
     else:
         return "No result", 202
